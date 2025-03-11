@@ -82,4 +82,8 @@ function Logout(req, res) {
       
 
 }
-export { Signup, Login, Logout };
+
+async function Update(req,res) {
+    
+}
+export { Signup, Login, Logout,Update };
