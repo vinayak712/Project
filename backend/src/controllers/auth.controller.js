@@ -41,18 +41,45 @@ async function Signup(req, res) {
         res.status(400).json({ Message: "Internal Server Error" });
         
     }
-    // res.send("Signup page");
+   
 }
 
 
+ async function Login(req,res) {
+    const { email, password } = req.body;
+    try {
+        const user = await User.findOne({ email });
+        if (!user) {
+            return res.status(400).json({ Message: 'Invalid Creandistials' });
+        }
+        const isPassword = await bcrypt.compare(password, user.password);
+        if (!isPassword) {
+            return res.status(400).json({ Message: 'Invalid Creandistials' });
+        }
+        generateToken(user._id, res);
+            res.status(200).json({
+                _id: user.id,
+                fullName: user.fullName,
+                email: user.email,
+                profilepic: user.profilepic,
 
-function Login(req,res) {
-    res.send("Logon page");
+            })
+        }
+    
+    catch (error) {
+        res.status(400).json({Message:'Invalid Please check again'})
+    }
 }
 
 function Logout(req, res) {
     
-        res.send('Logout page')
+    try {
+        res.cookie("jwt", "", { maxAge: 0 });
+    res.status(200).json("Successfully LogOut")
+    } catch (error) {
+        res.status(400).json("Error While LogOut" + error.message);
+}
+      
 
 }
 export { Signup, Login, Logout };
