@@ -6,7 +6,7 @@ import authRouter from'./routes/auth.route.js'
 const app = express();
 app.use(express.json());
 dotenv.config();
-// app.use(cookieParser()); 
+app.use(cookieParser()); 
 const port = process.env.PORT;
 
 // this tell that any HTTP requests to paths that start with /api/auth will hadle by  router in authRouter   it means any request start with /api/auth handle only by authRoutes

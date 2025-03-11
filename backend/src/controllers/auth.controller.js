@@ -1,6 +1,8 @@
 import User from "../models/user.model.js";
 import { generateToken } from "../lib/utils.js";
 import bcrypt from 'bcrypt'
+import cloudinary from'cloudinary'
+import { createConnection } from "mongoose";
 
 async function Signup(req, res) {
     const { fullName, email, password } = req.body;
@@ -57,6 +59,7 @@ async function Signup(req, res) {
             return res.status(400).json({ Message: 'Invalid Creandistials' });
         }
         generateToken(user._id, res);
+
             res.status(200).json({
                 _id: user.id,
                 fullName: user.fullName,
@@ -84,6 +87,29 @@ function Logout(req, res) {
 }
 
 async function Update(req,res) {
+    try {
+        const { profilepic } = req.body;  // extract it from body
+        if (!profilepic) {
+            res.status(400).json("Profile Pic is Required")
+        }
+        const userId = req.user._id;  // from protect()
+        const uploadR = await cloudinary.Uploader.upload(profilepic);
+        const updatedUser = await User.findByIdAndUpdate(userId, { profilepic: uploadR.secure_url }, { new: true });
+        res.status(200).json(updatedUser);
+    } catch (error) {
+        res.status(400).json("Internal Server Error");
+        console.log("Error in Updating Profile Pic" + error);
     
+    }
 }
-export { Signup, Login, Logout,Update };
+ 
+ function CheckAuth(req, res) {
+ try {
+    res.status(200).json(req.user);
+ } catch (error) {
+     console.log('Error in checking Authentication' + error.message);
+     res.status(400).json({ Message: "Internal Server error" }); 
+ }
+
+}
+export { Signup, Login, Logout,Update,CheckAuth };
