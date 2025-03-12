@@ -37,6 +37,7 @@ async function SendMsg(req,res) {
        const { id: userId } = req.params; // if get id and named it as userId
        const myId = req.user._id;
        const { image, text } = req.body;
+       let imageUrl;
        if (image) {
            const uploadResponse = await cloudinary.uploader.upload(image);
            imageUrl = uploadResponse.secure_url;
