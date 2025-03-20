@@ -34,7 +34,7 @@ async function GetMsg(req,res) {
 }
 async function SendMsg(req,res) {
    try {
-       const { id: userId } = req.params; // if get id and named it as userId
+       const { id: userId } = req.params; // it get id and named it as userId
        const myId = req.user._id;
        const { image, text } = req.body;
        let imageUrl;
