@@ -1,9 +1,10 @@
 import { useState } from "react";
-import { User, Mail, Lock } from "lucide-react";
+import { User, Mail, Lock,Eye,EyeOff,Loader } from "lucide-react";
 import { userAuthStore } from "../store/useAuthStore";
-import {Link} from'react-router-dom'
+import { Link } from 'react-router-dom'
+import {toast} from'react-hot-toast'
 
-function Signup() {
+function SignupPage() {
   const [showpassword, setShowpassword] = useState(false);
   const [formData, setFormdata] = useState({
     fullName: "",
@@ -13,9 +14,21 @@ function Signup() {
 
   const { Signup, isSignup } = userAuthStore();
 
-  const validateForm = () => {};
-  const handleSubmit = (e) => {
-    e.preventDefault();
+    const validateForm = () => {
+        if (!formData.fullName.trim()) return toast.error("Name is required")
+        if (!formData.email.trim()) return toast.error("Email is required");
+        if (!/\S+@\S+\.\S+/.test(formData.email)) return toast.error("Enter a vaild email");
+        if(formData.password.length<6) return toast.error("Password length must greater than 6")
+
+        return true;
+  };
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        const success = validateForm();
+        
+        if (success==true) {
+            Signup(formData);
+        }
   };
 
   return (
@@ -58,22 +71,34 @@ function Signup() {
           <label className="text-white text-2xl flex items-center gap-x-3">
             Password <Lock className="size-6 text-green-500" />
           </label>
-          <input
-            type="password"
+                  <div className="relative w-full">
+                  <input
+            type={showpassword?"text":"password"}
             placeholder="********"
             className="input p-3 bg-slate-950 text-white w-full rounded-xl outline-none focus:ring-2 focus:ring-green-500"
             value={formData.password}
             onChange={(e) =>
               setFormdata({ ...formData, password: e.target.value })
             }
-          />
+                  />
+                  <button type="button" className="absolute inset-y-0 right-3 pr-3 flex items-center"
+                      onClick={() => { setShowpassword(!showpassword) }}>
+                      {showpassword ? (
+                          <EyeOff className="size-5 text-green-500"/>
+                      ):(<Eye className="size-5 text-green-500"/>)}
+                  </button>
 
+        </div>
           {/* Submit Button */}
           <button
             type="submit"
             className="mt-4 text-white font-bold text-2xl bg-green-600 w-full py-3 rounded-xl hover:bg-green-700 transition-all duration-300"
-          >
-            Create Account
+          disabled={isSignup}
+                  >
+                      {isSignup ? (
+                          <><Loader className="size-5 animate-spin" /> Loading...
+                          </>):(   "Create Account")}
+         
                   </button>
                   <p  className="text-center text-1xl mb-4">Already have a account? <span className="text-green-500"> <Link to="/login">Login</Link> </span> </p>
         </form>
@@ -82,4 +107,4 @@ function Signup() {
   );
 }
 
-export default Signup;
+export default SignupPage;
