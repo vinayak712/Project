@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { User, Mail, Lock } from "lucide-react";
 import { userAuthStore } from "../store/useAuthStore";
+import {Link} from'react-router-dom'
 
 function Signup() {
   const [showpassword, setShowpassword] = useState(false);
@@ -19,7 +20,7 @@ function Signup() {
 
   return (
     <div className="h-screen w-screen bg-slate-900 flex justify-center items-center">
-      <div className="px-10 py-8 flex flex-col h-[600px] w-[500px] bg-slate-700 border-2 border-slate-600 rounded-2xl shadow-lg">
+      <div className="px-10 py-8 flex flex-col h-[650px] w-[500px] bg-slate-700 border-2 border-slate-600 rounded-2xl shadow-lg">
         <h1 className="text-center text-white mb-6 mt-4 font-bold text-5xl">
           Sign Up
         </h1>
@@ -73,7 +74,8 @@ function Signup() {
             className="mt-4 text-white font-bold text-2xl bg-green-600 w-full py-3 rounded-xl hover:bg-green-700 transition-all duration-300"
           >
             Create Account
-          </button>
+                  </button>
+                  <p  className="text-center text-1xl mb-4">Already have a account? <span className="text-green-500"> <Link to="/login">Login</Link> </span> </p>
         </form>
       </div>
     </div>
