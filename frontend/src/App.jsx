@@ -4,12 +4,13 @@ import {Routes,Route, Navigate} from 'react-router-dom'
 import NavBar from "./components/navbar"
 import {userAuthStore} from'./store/useAuthStore'
 import Home from "./pages/home"
-import Login from "./pages/login"
+import LoginPage from "./pages/login"
 import Setting from "./pages/seeting" 
 import Signup from "./pages/signup"
 import Profile from "./pages/profile"
 import {Loader} from'lucide-react'
 import { Toaster} from'react-hot-toast'
+// import SignupPage from "./pages/signup"
 function App() {
   const { authUser, checkAuth,  isCheckingAuth } = userAuthStore();
   useEffect(() => {
@@ -28,7 +29,7 @@ function App() {
 <NavBar/>
       <Routes>
         <Route path="/" element={authUser?<Home />:<Navigate to="/login"/>} />
-        <Route path="/login" element={!authUser?<Login />:<Navigate to="/"/>} />
+        <Route path="/login" element={!authUser?<LoginPage />:<Navigate to="/"/>} />
         <Route path="/signup" element={!authUser?<Signup />:<Navigate to='/'/>} />
         <Route path="/setting" element={<Setting />} />
         <Route path="/profile" element={<Profile />} />
