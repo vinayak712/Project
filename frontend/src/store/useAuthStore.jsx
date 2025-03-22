@@ -57,5 +57,13 @@ export const userAuthStore = create((set) => ({
        } catch (error) {
            toast.error(error.response.data.message);
        }
+    },
+    Profile: async (data) => {
+        set({ isUpdatingprof: true });
+        try {
+            
+        } catch (error) {
+            
+        }
     }
 }));
