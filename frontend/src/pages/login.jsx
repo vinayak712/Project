@@ -99,7 +99,7 @@ function LoginPage() {
                           </>):(   "Login")}
          
                   </button>
-                  <p  className="text-center text-1xl mb-4">Already have a account? <span className="text-green-500"> <Link to="/login">Login</Link> </span> </p>
+                  <p  className="text-center text-1xl mb-4">Create  account👉 <span className="text-green-500"> <Link to="/Signup">Signup</Link> </span> </p>
         </form>
       </div>
     </div>
