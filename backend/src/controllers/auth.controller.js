@@ -86,20 +86,32 @@ function Logout(req, res) {
 
 }
 
-async function Update(req,res) {
+async function Update(req, res) {
     try {
-        const { profilepic } = req.body;  // extract it from body
+        const { profilepic } = req.body; // Extract profilepic from the request body
+
+        // Check if profilepic is provided
         if (!profilepic) {
-            res.status(400).json("Profile Pic is Required")
+            return res.status(400).json("Profile Pic is Required"); // Add `return` to stop further execution
         }
-        const userId = req.user._id;  // from protect()
-        const uploadR = await cloudinary.Uploader.upload(profilepic);
-        const updatedUser = await User.findByIdAndUpdate(userId, { profilepic: uploadR.secure_url }, { new: true });
-        res.status(200).json(updatedUser);
+
+        const userId = req.user._id; // Extract user ID from the Protect middleware
+
+        // Upload the profile picture to Cloudinary
+        const uploadR = await cloudinary.uploader.upload(profilepic);
+
+        // Update the user's profile picture in the database
+        const updatedUser = await User.findByIdAndUpdate(
+            userId,
+            { profilepic: uploadR.secure_url },
+            { new: true } // Return the updated user document
+        );
+
+        // Send the updated user as the response
+        return res.status(200).json(updatedUser);
     } catch (error) {
-        res.status(400).json("Internal Server Error");
-        console.log("Error in Updating Profile Pic" + error);
-    
+        console.error("Error in Updating Profile Pic:", error.message);
+        return res.status(500).json("Internal Server Error");
     }
 }
  

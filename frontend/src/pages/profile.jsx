@@ -5,9 +5,19 @@ import { userAuthStore } from "../store/useAuthStore";
 
 function Profile() {
   const { authUser, Profile, isUpdatingprof } = userAuthStore();
+  const [selectedimg, setSelectedimg] = useState(null);
 
   async function handleImageUp(e) {
-    // Handle Image Upload Logic
+      const file = e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = async () => {
+        const base64Image = reader.result;
+        setSelectedimg(base64Image);
+        await Profile({ profilepic: base64Image });
+        
+     }
   }
 
   return (
@@ -26,7 +36,7 @@ function Profile() {
           {/* Profile Picture Section */}
           <div className="relative mt-6">
             <img
-              src={defaultUserImage || authUser.Profile}
+              src={ selectedimg||defaultUserImage || authUser?.Profile}
               alt="User profile photo"
               className="rounded-full size-32 object-cover border-4 border-green-500 bg-white shadow-lg"
             />
@@ -47,7 +57,8 @@ function Profile() {
             </label>
           </div>
                   {/* Upload Status */}
-                  <p className="text-lg text-zinc-300 p-4 font-bold">{authUser.fullName }</p>
+                  <p className="text-lg text-zinc-300 p-4 font-bold">{authUser?.fullName || "Loading..."}</p>
+
           <p className="text-zinc-400 text-lg text-center p-5">
             {isUpdatingprof ? (
               <>
@@ -92,7 +103,7 @@ function Profile() {
             <div className="space-y-3 text-sm text-zinc-400">
               <div className="flex items-center justify-between py-2 border-b border-zinc-700">
                 <span>Member Since</span>
-                <span>{authUser.createdAt?.split("T")[0]}</span>
+                <span>{authUser?.createdAt?.split("T")[0]}</span>
               </div>
               <div className="flex items-center justify-between py-2">
                 <span>Account Status</span>
