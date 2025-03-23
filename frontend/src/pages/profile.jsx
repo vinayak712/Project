@@ -8,32 +8,31 @@ function Profile() {
   const [selectedimg, setSelectedimg] = useState(null);
 
   async function handleImageUp(e) {
-      const file = e.target.files[0];
-      if (!file) return;
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = async () => {
-        const base64Image = reader.result;
-        console.log("Base64 Image:", base64Image);
-        setSelectedimg(base64Image);
-       
-        try {
-          await Profile({ profilepic: base64Image });
-        } catch (error) {
-          console.error("Error uploading profile picture:", error);
-        }
-    }
-  
+    const file = e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = async () => {
+      const base64Image = reader.result;
+      console.log("Base64 Image:", base64Image);
+      setSelectedimg(base64Image);
+
+      try {
+        await Profile({ profilepic: base64Image });
+      } catch (error) {
+        console.error("Error uploading profile picture:", error);
+      }
+    };
   }
 
   return (
     <>
-      <div className="min-h-screen w-screen bg-gradient-to-b from-slate-800 to-slate-900 flex items-center justify-center">
+      <div className="min-h-screen w-screen flex items-center justify-center bg-base-100">
         {/* Profile Container */}
-        <div className="flex flex-col items-center bg-slate-950 w-[700px] h-auto p-8 rounded-2xl shadow-2xl border border-zinc-700">
+        <div className="flex flex-col items-center w-[700px] h-auto p-8 rounded-2xl shadow-2xl border border-base-300 bg-base-200">
           {/* Header Section */}
           <div className="text-center">
-            <h1 className="text-4xl font-bold text-white">Profile</h1>
+            <h1 className="text-4xl font-bold text-primary">Profile</h1>
             <p className="text-lg text-green-500 font-medium mt-2">
               Your Profile Information
             </p>
@@ -42,14 +41,14 @@ function Profile() {
           {/* Profile Picture Section */}
           <div className="relative mt-6">
             <img
-              src={ selectedimg||defaultUserImage || authUser?.Profile}
+              src={selectedimg || defaultUserImage || authUser?.Profile}
               alt="User profile photo"
-              className="rounded-full size-32 object-cover border-4 border-green-500 bg-white shadow-lg"
+              className="rounded-full size-32 object-cover border-4 border-primary bg-base-100 shadow-lg"
             />
             {/* Camera Icon for Upload */}
             <label
               htmlFor="avatar-upload"
-              className="absolute bottom-0 right-0 bg-green-500 p-2 rounded-full cursor-pointer hover:scale-105 transition-all duration-200 shadow-md"
+              className="absolute bottom-0 right-0 bg-primary p-2 rounded-full cursor-pointer hover:scale-105 transition-all duration-200 shadow-md"
             >
               <Camera className="size-6 text-white" />
               <input
@@ -62,10 +61,12 @@ function Profile() {
               />
             </label>
           </div>
-                  {/* Upload Status */}
-                  <p className="text-lg text-zinc-300 p-4 font-bold">{authUser?.fullName || "Loading..."}</p>
+          {/* Upload Status */}
+          <p className="text-lg text-base-content p-4 font-bold">
+            {authUser?.fullName || "Loading..."}
+          </p>
 
-          <p className="text-zinc-400 text-lg text-center p-5">
+          <p className="text-base-content text-lg text-center p-5">
             {isUpdatingprof ? (
               <>
                 <Loader className="size-5 animate-spin inline-block mr-2" />
@@ -80,34 +81,34 @@ function Profile() {
           <div className="space-y-6 w-full px-6">
             {/* Full Name */}
             <div className="space-y-1">
-              <div className="flex items-center gap-2 text-lg text-zinc-300">
+              <div className="flex items-center gap-2 text-lg text-base-content">
                 <User className="size-5" />
                 <span className="font-semibold">Full Name</span>
               </div>
-              <p className="text-zinc-400 bg-slate-800 rounded-lg border border-zinc-700 p-4 w-full">
+              <p className="text-base-content bg-base-100 rounded-lg border border-base-300 p-4 w-full">
                 {authUser?.fullName}
               </p>
             </div>
 
             {/* Email */}
             <div className="space-y-1">
-              <div className="flex items-center gap-2 text-lg text-zinc-300">
+              <div className="flex items-center gap-2 text-lg text-base-content">
                 <Mail className="size-5" />
                 <span className="font-semibold">Email</span>
               </div>
-              <p className="text-zinc-400 bg-slate-800 rounded-lg border border-zinc-700 p-4 w-full">
+              <p className="text-base-content bg-base-100 rounded-lg border border-base-300 p-4 w-full">
                 {authUser?.email}
               </p>
             </div>
           </div>
 
           {/* Account Information Section */}
-          <div className="mt-6 bg-slate-800 w-full rounded-xl p-6 border border-zinc-700">
-            <h2 className="text-lg font-medium text-white mb-4">
+          <div className="mt-6 bg-base-100 w-full rounded-xl p-6 border border-base-300">
+            <h2 className="text-lg font-medium text-primary mb-4">
               Account Information
             </h2>
-            <div className="space-y-3 text-sm text-zinc-400">
-              <div className="flex items-center justify-between py-2 border-b border-zinc-700">
+            <div className="space-y-3 text-sm text-base-content">
+              <div className="flex items-center justify-between py-2 border-b border-base-300">
                 <span>Member Since</span>
                 <span>{authUser?.createdAt?.split("T")[0]}</span>
               </div>

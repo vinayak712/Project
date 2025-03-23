@@ -3,7 +3,7 @@ import { createRoot } from 'react-dom/client'
 import {Routes,Route, Navigate} from 'react-router-dom'
 import NavBar from "./components/navbar"
 import { userAuthStore } from './store/useAuthStore'
-import{userThemeStore} from './store/useThemeStore'
+import{useThemeStore} from './store/useThemeStore'
 import Home from "./pages/home"
 import LoginPage from "./pages/login"
 import Setting from "./pages/seeting" 
@@ -11,9 +11,9 @@ import Signup from "./pages/signup"
 import Profile from "./pages/profile"
 import {Loader} from'lucide-react'
 import { Toaster} from'react-hot-toast'
-// import SignupPage from "./pages/signup"
+
 function App() {
-  const { theme } = userThemeStore();
+  const { theme } = useThemeStore();
   const { authUser, checkAuth,  isCheckingAuth } = userAuthStore();
   useEffect(() => {
     checkAuth();
@@ -34,7 +34,7 @@ function App() {
         <Route path="/login" element={!authUser?<LoginPage />:<Navigate to="/"/>} />
         <Route path="/signup" element={!authUser?<Signup />:<Navigate to='/'/>} />
         <Route path="/setting" element={<Setting />} />
-        <Route path="/profile" element={authUser?<Profile />:<Navigate to="/login"/>} />
+        <Route path="/profile" element={authUser?<Profile />:<Navigate to="/"/>} />
       </Routes>
       <Toaster/>
     </div>
