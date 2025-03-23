@@ -14,10 +14,16 @@ function Profile() {
       reader.readAsDataURL(file);
       reader.onload = async () => {
         const base64Image = reader.result;
+        console.log("Base64 Image:", base64Image);
         setSelectedimg(base64Image);
-        await Profile({ profilepic: base64Image });
-        
-     }
+       
+        try {
+          await Profile({ profilepic: base64Image });
+        } catch (error) {
+          console.error("Error uploading profile picture:", error);
+        }
+    }
+  
   }
 
   return (

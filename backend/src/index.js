@@ -6,11 +6,12 @@ import cookieParser from 'cookie-parser';
 import authRouter from './routes/auth.route.js'
 import msgRouter from'./routes/msg.route.js'
 const app = express();
-app.use(express.json());
+app.use(express.json({limit:"10mb"}));
 dotenv.config();
 app.use(cookieParser()); 
 app.use(cors({
     origin: "http://localhost:5173",
+    methods: ["GET", "POST", "PUT", "DELETE"],
     credentials:true
 }))
 const port = process.env.PORT;

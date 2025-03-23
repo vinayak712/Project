@@ -85,35 +85,70 @@ function Logout(req, res) {
       
 
 }
-
+// // Cloudinary Config
+cloudinary.v2.config({
+  cloud_name: process.env.CLOUDINAR_CLOUD_NAME,
+  api_key: process.env.CLOUDINAR_API_KEY,
+  api_secret: process.env.CLOUDINAR_API_SECRET,
+});
 async function Update(req, res) {
     try {
-        const { profilepic } = req.body; // Extract profilepic from the request body
-
-        // Check if profilepic is provided
+        const { profilepic } = req.body; 
         if (!profilepic) {
-            return res.status(400).json("Profile Pic is Required"); // Add `return` to stop further execution
+            return res.status(400).json("Profile Pic is Required"); 
         }
 
         const userId = req.user._id; // Extract user ID from the Protect middleware
 
         // Upload the profile picture to Cloudinary
         const uploadR = await cloudinary.uploader.upload(profilepic);
-
+        console.log("Cloudinary Response:", uploadR);
         // Update the user's profile picture in the database
         const updatedUser = await User.findByIdAndUpdate(
             userId,
             { profilepic: uploadR.secure_url },
-            { new: true } // Return the updated user document
+            { new: true } 
         );
 
-        // Send the updated user as the response
         return res.status(200).json(updatedUser);
     } catch (error) {
         console.error("Error in Updating Profile Pic:", error.message);
         return res.status(500).json("Internal Server Error");
     }
 }
+
+
+
+
+// // Update Profile Controlle
+//   const Update = async (req, res) => {
+//   try {
+//     const { profilepic } = req.body; // base64Image from frontend
+//     let imageUrl = '';
+
+//     // Upload only if the profile picture is provided
+//     if (profilepic) {
+//       const uploadResponse = await cloudinary.v2.uploader.upload(profilepic, {
+//         folder: 'profile_pics',
+//         transformation: [{ width: 500, height: 500, crop: 'limit' }],
+//       });
+//       imageUrl = uploadResponse.secure_url; // Get Cloudinary URL
+//     }
+
+//     // Update User with new profile pic
+//     const user = await User.findByIdAndUpdate(
+//       req.user.id,
+//       { profilepic: imageUrl || req.user.profilepic }, // Retain old pic if no new pic
+//       { new: true }
+//     );
+
+//     res.status(200).json(user);
+//   } catch (error) {
+//     console.error('Profile update error:', error.message);
+//     res.status(500).json({ message: 'Profile update failed' });
+//   }
+// };
+
  
  function CheckAuth(req, res) {
  try {
