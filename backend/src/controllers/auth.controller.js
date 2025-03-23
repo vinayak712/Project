@@ -87,9 +87,9 @@ function Logout(req, res) {
 }
 // // Cloudinary Config
 cloudinary.v2.config({
-  cloud_name: process.env.CLOUDINAR_CLOUD_NAME,
-  api_key: process.env.CLOUDINAR_API_KEY,
-  api_secret: process.env.CLOUDINAR_API_SECRET,
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 async function Update(req, res) {
     try {
