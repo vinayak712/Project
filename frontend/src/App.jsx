@@ -2,7 +2,8 @@ import { StrictMode, useEffect } from "react"
 import { createRoot } from 'react-dom/client'
 import {Routes,Route, Navigate} from 'react-router-dom'
 import NavBar from "./components/navbar"
-import {userAuthStore,userThemeStore} from'./store/useAuthStore'
+import { userAuthStore } from './store/useAuthStore'
+import{userThemeStore} from './store/useThemeStore'
 import Home from "./pages/home"
 import LoginPage from "./pages/login"
 import Setting from "./pages/seeting" 
