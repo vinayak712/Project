@@ -2,9 +2,10 @@ import { useState, useEffect } from "react";
 import { userChatstore } from "../store/userChatstore";
 import { Users } from 'lucide-react'
 import defaultUserImage from "../assets/user.png";
+import { userAuthStore } from "../store/useAuthStore";
 function Sidebar() {
     const { selectedUser, isUserLoading, getUsers, users, setSelectedUser } = userChatstore();
-    const onlineUsers = [];
+    const { onlineUsers } = userAuthStore();
     useEffect(() => {
         getUsers();
         console.log("Fetched Users:", users); 

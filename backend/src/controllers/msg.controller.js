@@ -52,7 +52,7 @@ async function SendMsg(req,res) {
        res.status(200).json(newMessage);
 
    } catch (error) {
-console.log("Error is "+error,message );
+console.log("Error is "+error.message );
        res.status(400).json("Internal Server Error");
    } 
 }
