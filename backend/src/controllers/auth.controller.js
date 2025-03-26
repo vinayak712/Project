@@ -1,7 +1,7 @@
 import User from "../models/user.model.js";
 import { generateToken } from "../lib/utils.js";
 import bcrypt from 'bcrypt'
-import cloudinary from'cloudinary'
+import cloudinary from "../lib/cloudinar.js";
 import { createConnection } from "mongoose";
 
 async function Signup(req, res) {
@@ -85,12 +85,10 @@ function Logout(req, res) {
       
 
 }
-// // Cloudinary Config
-cloudinary.v2.config({
-  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
-  api_key: process.env.CLOUDINARY_API_KEY,
-  api_secret: process.env.CLOUDINARY_API_SECRET,
-});
+
+
+
+
 async function Update(req, res) {
     try {
         const { profilepic } = req.body; 
@@ -108,7 +106,7 @@ async function Update(req, res) {
             userId,
             { profilepic: uploadR.secure_url },
             { new: true } 
-        );
+        ).select("-password");
 
         return res.status(200).json(updatedUser);
     } catch (error) {
@@ -118,36 +116,6 @@ async function Update(req, res) {
 }
 
 
-
-
-// // Update Profile Controlle
-//   const Update = async (req, res) => {
-//   try {
-//     const { profilepic } = req.body; // base64Image from frontend
-//     let imageUrl = '';
-
-//     // Upload only if the profile picture is provided
-//     if (profilepic) {
-//       const uploadResponse = await cloudinary.v2.uploader.upload(profilepic, {
-//         folder: 'profile_pics',
-//         transformation: [{ width: 500, height: 500, crop: 'limit' }],
-//       });
-//       imageUrl = uploadResponse.secure_url; // Get Cloudinary URL
-//     }
-
-//     // Update User with new profile pic
-//     const user = await User.findByIdAndUpdate(
-//       req.user.id,
-//       { profilepic: imageUrl || req.user.profilepic }, // Retain old pic if no new pic
-//       { new: true }
-//     );
-
-//     res.status(200).json(user);
-//   } catch (error) {
-//     console.error('Profile update error:', error.message);
-//     res.status(500).json({ message: 'Profile update failed' });
-//   }
-// };
 
  
  function CheckAuth(req, res) {
