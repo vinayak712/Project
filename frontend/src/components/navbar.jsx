@@ -9,8 +9,8 @@ function NavBar() {
     }
     return (
         <>
-            <div className='w-full min-h-full bg-slate-900 '>
-                <nav className='relative bg-slate-950 w-full h-[70px]' >
+            <div className='w-full  bg-slate-900 '>
+                <nav className='fixed top-0 left-0 bg-slate-950 w-full h-[70px]' >
                     <ul className='w-full  h-full flex justify-between items-center absolute'>
                         <Link to="/">
                         <li className='text-3xl text-green-700 gap-2'>ChatME💬</li>
