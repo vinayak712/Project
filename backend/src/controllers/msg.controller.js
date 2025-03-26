@@ -18,7 +18,7 @@ import cloudinary from 'cloudinary';
 async function GetMsg(req,res) {
     try {
         const { id: userToChat } = req.params;
-        const myId = req.user_id;
+        const myId = req.user._id;
         const messages = await Message.find({
             $or: [
                 { senderId: myId, receiverId: userToChat },
@@ -43,10 +43,10 @@ async function SendMsg(req,res) {
            imageUrl = uploadResponse.secure_url;
        }
        const newMessage = new Message({
-           myId,
-           userId,
+         senderId:  myId,
+         receiverId:  userId,
            text,
-           image,
+           image:imageUrl,
        });
        await newMessage.save();
        res.status(200).json(newMessage);

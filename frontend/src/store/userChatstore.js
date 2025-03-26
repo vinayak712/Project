@@ -20,10 +20,10 @@ export const userChatstore = create((set,get) =>( {
               }
     },
     getMessages: async (userId) => {
-        set({ isMessageLoading: false })
+        set({ isMessageLoading: true })
         try {
             const res = await axiosInstanace.get(`/message/${userId}`)
-            set({ message: res.data })
+            set({ messages: res.data })
         }
         catch (error) {
             toast.error(error.res.data.message);
@@ -35,8 +35,8 @@ export const userChatstore = create((set,get) =>( {
     SendMessages: async (Mdata) => {
         const { selectedUser, messages } = get();
         try {
-            const res = axiosInstanace.post(`/message/send/${selectedUser._id}`, Mdata)
-            set({ messages: [...messages, res.Mdata] });
+            const res =  await axiosInstanace.post(`/message/send/${selectedUser._id}`, Mdata)
+            set({ messages: [...messages, res.data] });
         } catch (error) {
             toast.error(error.res.data.message);
         }
