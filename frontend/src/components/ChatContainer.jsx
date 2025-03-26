@@ -28,31 +28,35 @@ function ChatContainer() {
             <div className="flex-1 flex flex-col overflow-auto">
                 < ChatHeader />
          
-                <div className="flex flex-1 overflow-y-auto space-y-4 p-4">
+                <div className="flex flex-col overflow-y-auto space-y-4 p-4">
 
                     {messages.map((message) => (
                         <div key={message._id}
                             className={`chat ${message.senderId === authUser._id ? 'chat-end' : 'chat-start'}`}
                             
                         >
+                            <div className="chat-image avatar flex ">
                             <div className="size-10 rounded-full border">
-<img src={message.senderId===authUser._id?authUser.profilepic:selectedUser.profilepic || defaultUserImage } alt="profilepic" />
+                                    <img
+                                        src={
+                                            message.senderId === authUser._id ? authUser.profilepic : selectedUser.profilepic || defaultUserImage} alt="profilepic" />
                             </div>
-                            <div>
+                 </div>
+                            <div className="chat-header mb-1 ">
                                 <time className="text-sm opacity-50 ml-1">
                                     {formatMessageTime(message.createdAt)}
                                 </time>
                             </div>
                             
-                            <div>
+                            <div className="chat-bubble flex flex-col">
                                 {message.image && (
                                     <img
                                         src={message.image}
                                         alt="Attachment"
-                                        className="sm:max-w-[200px] rounded-md mb-2"
+                                        className="sm:max-w-[200px] rounded-md mb-2 flex flex-col"
                                     />
                                 )}
-                                     {message.text && <p>{message.text}</p>}
+                                 {message.text && <p>{message.text}</p>}  
                             </div>
             </div>
         ))}
