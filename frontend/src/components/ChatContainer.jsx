@@ -48,7 +48,7 @@ function ChatContainer() {
                                 </time>
                             </div>
                             
-                            <div className="chat-bubble flex flex-col">
+                            <div className="chat-bubble flex flex-col  ">
                                 {message.image && (
                                     <img
                                         src={message.image}
@@ -56,7 +56,8 @@ function ChatContainer() {
                                         className="sm:max-w-[200px] rounded-md mb-2 flex flex-col"
                                     />
                                 )}
-                                 {message.text && <p>{message.text}</p>}  
+                                {/* className="bg-primary text-primary-content chat-bubble" can apply this */}
+                                {message.text && <p >{message.text}</p>}  
                             </div>
             </div>
         ))}
