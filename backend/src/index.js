@@ -4,8 +4,9 @@ import cors from'cors'
 import { ConnectDb } from './lib/db.js';
 import cookieParser from 'cookie-parser';
 import authRouter from './routes/auth.route.js'
-import msgRouter from'./routes/msg.route.js'
-const app = express();
+import msgRouter from './routes/msg.route.js'
+import{app,server,io} from'./lib/socket.js'
+
 app.use(express.json({limit:"10mb"}));
 dotenv.config();
 app.use(cookieParser()); 
@@ -20,7 +21,7 @@ const port = process.env.PORT;
 
 app.use('/api/auth', authRouter)
 app.use('/api/message',msgRouter)
-app.listen(port, () => {
+server.listen(port, () => {
     console.log(` Server Running on ${port}`);
     ConnectDb();
     
