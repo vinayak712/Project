@@ -2,6 +2,7 @@ import User from "../models/user.model.js";
 import express from 'express'
 import Message from "../models/message.model.js";
 import cloudinary from 'cloudinary'; 
+import { getReciverSocketId,io } from "../lib/socket.js";
 
  async function GetUserOnSideBar(req, res){
      try {
@@ -49,6 +50,12 @@ async function SendMsg(req,res) {
            image:imageUrl,
        });
        await newMessage.save();
+
+       const reciverSocketId = getReciverSocketId(userId);
+       if (reciverSocketId) {
+           // as io.emit() broadcast to everyone so make it only for user i use to() 
+           io.to(reciverSocketId).emit("newMessage", newMessage);
+       }
        res.status(200).json(newMessage);
 
    } catch (error) {

@@ -7,13 +7,15 @@ import defaultUserImage from "../assets/user.png";
 import ChatHeader from "./chatHeader";
 import { Loader } from "lucide-react";
 function ChatContainer() {
-    const { messages, selectedUser, isMessageLoading, getMessages } = userChatstore();
+    const { messages, selectedUser, isMessageLoading, getMessages,unscribeFromMessages, subscribeToMessages } = userChatstore();
     const { authUser } = userAuthStore();
     useEffect(() => {
         if (selectedUser?._id) {
             getMessages(selectedUser._id);
+            subscribeToMessages();
         }
-    }, [selectedUser?._id, getMessages]);
+        return () => unscribeFromMessages();
+    }, [selectedUser?._id, getMessages,    unscribeFromMessages, subscribeToMessages]);
 
     if (isMessageLoading) {
         return (

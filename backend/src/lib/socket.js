@@ -10,6 +10,11 @@ const io = new Server(server, {
         origin: ["http://localhost:5173"]
     },
 });
+
+//  in this  we give userId of the user and it return the socketId of that user
+export function getReciverSocketId(userId) {
+    return userSocketMap[userId];
+ }
 // used to store online users
 const userSocketMap={} //{userId,socketId}
 io.on("connection", (socket) => {
