@@ -39,7 +39,7 @@ function ChatContainer() {
             <div className="flex-1 flex flex-col overflow-hidden">
                 < ChatHeader />
          
-                <div className="flex flex-col overflow-y-auto space-y-4 p-4">
+                <div className="flex flex-col overflow-y-auto space-y-4 p-4 h-full">
 
                     {messages.map((message) => (
                         <div key={message._id}

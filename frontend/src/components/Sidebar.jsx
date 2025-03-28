@@ -6,10 +6,14 @@ import { userAuthStore } from "../store/useAuthStore";
 function Sidebar() {
     const { selectedUser, isUserLoading, getUsers, users, setSelectedUser } = userChatstore();
     const { onlineUsers } = userAuthStore();
+
+    const [showOnlineOnly, setShowOnlineOnly] = useState(false);
     useEffect(() => {
         getUsers();
         console.log("Fetched Users:", users); 
-    },[getUsers])
+    }, [getUsers])
+    const filteredUsers = showOnlineOnly ? users.filter(user => onlineUsers.includes(user._id)) : users;
+    const onlineUsersCount = onlineUsers?.length ?? 0;
     return (
         <>
             <aside className="h-full w-30 lg:w-72 border-r border-base-300 flex flex-col transition-all duration-200 ">
@@ -19,14 +23,26 @@ function Sidebar() {
                         <Users className="size-6" />
                         <p className="font-medium hidden lg:block">Contacts</p>
                     </div>
-              
-                    <div>
-      {/* have to do to toogle online user only */}
-                    </div>
-                   
-                </div>
+
+                              {/* TODO: Online filter toggle */}
+        <div className="mt-3 hidden lg:flex items-center gap-2">
+          <label className="cursor-pointer flex items-center gap-2">
+            <input
+              type="checkbox"
+              checked={showOnlineOnly}
+              onChange={(e) => setShowOnlineOnly(e.target.checked)}
+              className="checkbox checkbox-sm"
+            />
+            <span className="text-sm">Show online only</span>
+          </label>
+          <span className="text-xs text-zinc-500">({Math.max(0, onlineUsersCount - 1)} online)</span>
+        </div>
+      </div>
+             
+                
+                
                 <div className="overflow-y-auto w-full  py-3">
-                        {users.map((user)=>(
+                        {filteredUsers.map((user)=>(
                         
                             < button
                                 key={user._id}
