@@ -12,7 +12,7 @@ function chatHeader() {
                 <div className="flex items-center justify-between ">
                     <div className="flex items-center gap-3">
                         <div className="avatar">
-                        <div className="size-10 rounded-full relative">
+                        <div className="size-10 rounded-full relative fixed">
                     <img src={selectedUser.profilepic|| defaultUserImage} alt={selectedUser.fullName} className="rounded-full"/>
                     </div> 
                    </div>
