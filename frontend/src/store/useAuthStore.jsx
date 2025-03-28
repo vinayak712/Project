@@ -3,7 +3,7 @@ import { axiosInstanace } from '../lib/axios'
 import { toast } from "react-hot-toast"
 import{io} from'socket.io-client'
 // import { connect } from 'mongoose';
-const Base_URL = "http://localhost:7000";
+const Base_URL =  import.meta.env.MODE==="development"?"http://localhost:7000":"/";
 export const userAuthStore = create((set,get) => ({
     authUser: null,
     isCheckingAuth: true,
