@@ -13,11 +13,11 @@ app.use(express.json({limit:"10mb"}));
 dotenv.config();
 app.use(cookieParser()); 
 app.use(cors({
-    origin: "http://localhost:5173",
+    origin: ["http://localhost:5173",  "https://chat-app-teab.onrender.com" ],
     methods: ["GET", "POST", "PUT", "DELETE"],
     credentials:true
 }))
-const port = process.env.PORT;
+const port = process.env.PORT || 7000;
 
 // this tell that any HTTP requests to paths that start with /api/auth will hadle by  router in authRouter   it means any request start with /api/auth handle only by authRoutes
 
