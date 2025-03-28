@@ -1,4 +1,4 @@
-import { useState,useEffect } from "react";
+import { useState,useEffect, useRef } from "react";
 import { userChatstore } from "../store/userChatstore";
 import MessageInput from "./MessageInput";
 import { userAuthStore } from "../store/useAuthStore";
@@ -9,6 +9,7 @@ import { Loader } from "lucide-react";
 function ChatContainer() {
     const { messages, selectedUser, isMessageLoading, getMessages,unscribeFromMessages, subscribeToMessages } = userChatstore();
     const { authUser } = userAuthStore();
+    const messageEndRef = useRef(null);
     useEffect(() => {
         if (selectedUser?._id) {
             getMessages(selectedUser._id);
@@ -17,17 +18,25 @@ function ChatContainer() {
         return () => unscribeFromMessages();
     }, [selectedUser?._id, getMessages,    unscribeFromMessages, subscribeToMessages]);
 
+    useEffect(() => {
+        if (messageEndRef.current && messages) {
+            messageEndRef.current.scrollIntoView({ behavior: "smooth" });
+
+        }
+    },[messages])
     if (isMessageLoading) {
         return (
             <>
-             <Loader className="size-5 animate-spin inline-block mr-2" />
-             Loading...
+                <div className="flex  justify-center items-center h-full">
+                <Loader className="size-5 animate-spin inline-block mr-2" />
+                Loading...
+            </div>
             </>
         )
     }
     return (
         <>
-            <div className="flex-1 flex flex-col overflow-auto">
+            <div className="flex-1 flex flex-col overflow-hidden">
                 < ChatHeader />
          
                 <div className="flex flex-col overflow-y-auto space-y-4 p-4">
@@ -35,7 +44,6 @@ function ChatContainer() {
                     {messages.map((message) => (
                         <div key={message._id}
                             className={`chat ${message.senderId === authUser._id ? 'chat-end' : 'chat-start'}`}
-                            
                         >
                             <div className="chat-image avatar flex ">
                             <div className="size-10 rounded-full border">
@@ -64,8 +72,8 @@ function ChatContainer() {
             </div>
         ))}
 
+                <div ref={messageEndRef} />
                 </div>
-
 
 
                 <MessageInput/>
